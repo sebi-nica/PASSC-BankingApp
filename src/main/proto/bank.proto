@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package grpc;
+
+// generates separate .java files for each message/service
+option java_multiple_files = true;
+// target package for generated code
+option java_package = "grpc.generated";
+option java_outer_classname = "BankProto";
+
+service BankService {
+  rpc AddAmount (AmountRequest) returns (BalanceResponse);
+  rpc WithdrawAmount (AmountRequest) returns (BalanceResponse);
+  rpc TransferAmount (TransferRequest) returns (BalanceResponse);
+  rpc QueryBalance (AccountRequest) returns (BalanceResponse);
+}
+
+message AccountRequest {
+  string account_id = 1;
+}
+
+message AmountRequest {
+  string account_id = 1;
+  double amount = 2;
+}
+
+message TransferRequest {
+  string from_account_id = 1;
+  string to_account_id = 2;
+  double amount = 3;
+}
+
+message BalanceResponse {
+  string account_id = 1;
+  double balance = 2;
+}
