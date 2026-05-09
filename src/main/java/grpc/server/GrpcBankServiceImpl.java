@@ -1,6 +1,5 @@
 package grpc.server;
 
-// Import the generated message classes directly
 import grpc.generated.AmountRequest;
 import grpc.generated.AccountRequest;
 import grpc.generated.BalanceResponse;
@@ -11,14 +10,8 @@ import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * The gRPC Server Implementation.
- * Extends the auto-generated base class. Notice how gRPC uses asynchronous
- * StreamObservers to send responses back to the client.
- */
 public class GrpcBankServiceImpl extends BankServiceGrpc.BankServiceImplBase {
 
-    // Thread-safe in-memory database
     private final ConcurrentHashMap<String, Double> accounts = new ConcurrentHashMap<>();
 
     @Override
@@ -26,13 +19,11 @@ public class GrpcBankServiceImpl extends BankServiceGrpc.BankServiceImplBase {
         String accountId = request.getAccountId();
         double newBalance = accounts.merge(accountId, request.getAmount(), Double::sum);
 
-        // Build the auto-generated response object
         BalanceResponse response = BalanceResponse.newBuilder()
                 .setAccountId(accountId)
                 .setBalance(newBalance)
                 .build();
 
-        // Send the response and close the stream
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -44,7 +35,6 @@ public class GrpcBankServiceImpl extends BankServiceGrpc.BankServiceImplBase {
         double currentBalance = accounts.getOrDefault(accountId, 0.0);
 
         if (currentBalance < amount) {
-            // gRPC way of throwing exceptions across the network
             responseObserver.onError(Status.FAILED_PRECONDITION
                     .withDescription("Insufficient funds for account: " + accountId)
                     .asRuntimeException());

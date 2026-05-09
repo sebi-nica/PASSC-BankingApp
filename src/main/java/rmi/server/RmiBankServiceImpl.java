@@ -7,13 +7,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * The actual server-side implementation of the banking logic.
- * Extends UnicastRemoteObject to automatically export it to the RMI runtime.
- */
+
 public class RmiBankServiceImpl extends UnicastRemoteObject implements IBankService {
 
-    // Thread-safe in-memory database simulating a real datastore
     private final ConcurrentHashMap<String, Double> accounts;
 
     public RmiBankServiceImpl() throws RemoteException {
@@ -39,7 +35,6 @@ public class RmiBankServiceImpl extends UnicastRemoteObject implements IBankServ
 
     @Override
     public AccountState transferAmount(String fromAccountId, String toAccountId, double amount) throws RemoteException {
-        // Reuses existing methods to ensure consistent state
         withdrawAmount(fromAccountId, amount);
         addAmount(toAccountId, amount);
         return new AccountState(fromAccountId, accounts.get(fromAccountId));

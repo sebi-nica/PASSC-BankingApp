@@ -14,16 +14,12 @@ import java.rmi.registry.Registry;
 public class RmiClientMain {
     public static void main(String[] args) {
         try {
-            // 1. Connect to the local RMI registry on port 1099
+            // connect to local RMI registry
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 
-            // 2. Lookup the remote proxy (Stub) using the registered name
             IBankService bankProxy = (IBankService) registry.lookup("BankingService");
 
             System.out.println("--- Connected to RMI Bank Server ---");
-
-            // 3. Execute banking operations.
-            // Notice how network complexity is 100% hidden from the developer.
 
             // Add funds
             AccountState acc1 = bankProxy.addAmount("ACC1", 500.0);
