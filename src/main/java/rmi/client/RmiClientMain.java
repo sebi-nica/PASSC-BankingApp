@@ -6,11 +6,7 @@ import rmi.shared.IBankService;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-/**
- * The RMI Client.
- * Demonstrates the Remote Proxy Pattern by interacting with the Server
- * entirely through a local stub interface.
- */
+
 public class RmiClientMain {
     public static void main(String[] args) {
         try {

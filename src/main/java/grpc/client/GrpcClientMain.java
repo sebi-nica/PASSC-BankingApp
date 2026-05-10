@@ -56,7 +56,7 @@ public class GrpcClientMain {
             // should trigger error
             bankProxy.withdrawAmount(AmountRequest.newBuilder()
                     .setAccountId("ACC2")
-                    .setAmount(9999.0) // Way more than the $200 balance
+                    .setAmount(9999.0)
                     .build());
 
         } catch (StatusRuntimeException e) {
